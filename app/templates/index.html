@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fast File Converter</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}" />
+  </head>
+  <body>
+    <main class="shell">
+      <header class="hero">
+        <p class="badge">Turbo Mode</p>
+        <h1>Fast Audio &amp; Video Converter</h1>
+        <p>
+          Convert your media in seconds with multi-threaded processing and optimized presets.
+        </p>
+      </header>
+
+      <section class="card">
+        <form class="converter" method="post" action="/convert" enctype="multipart/form-data">
+          {% if error %}
+          <div class="alert">{{ error }}</div>
+          {% endif %}
+          <div class="field-group">
+            <label>Media type</label>
+            <div class="pill-group">
+              <label class="pill">
+                <input type="radio" name="media_type" value="audio" checked />
+                Audio
+              </label>
+              <label class="pill">
+                <input type="radio" name="media_type" value="video" />
+                Video
+              </label>
+            </div>
+          </div>
+
+          <div class="field-group">
+            <label for="output_format">Output format</label>
+            <select id="output_format" name="output_format" required>
+              <optgroup label="Audio formats">
+                {% for fmt in audio_formats %}
+                <option value="{{ fmt }}">{{ fmt | upper }}</option>
+                {% endfor %}
+              </optgroup>
+              <optgroup label="Video formats">
+                {% for fmt in video_formats %}
+                <option value="{{ fmt }}">{{ fmt | upper }}</option>
+                {% endfor %}
+              </optgroup>
+            </select>
+          </div>
+
+          <div class="field-group">
+            <label for="file">Choose file</label>
+            <input id="file" type="file" name="file" accept="audio/*,video/*" required />
+          </div>
+
+          <button type="submit">Convert &amp; Download</button>
+        </form>
+      </section>
+
+      <section class="tips">
+        <h2>Speed tips</h2>
+        <ul>
+          <li>Use MP4 or MP3 for fast, widely compatible exports.</li>
+          <li>Keep files under 1 GB for the quickest turnaround.</li>
+          <li>FFmpeg must be installed on the server to enable conversions.</li>
+        </ul>
+      </section>
+    </main>
+  </body>
+</html>
